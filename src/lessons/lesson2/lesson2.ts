@@ -23,6 +23,7 @@ console.log('lesson 2');
 
 // Task 01
 // Реализовать функцию sum которая суммирует 2 числа следующим образом sum(3)(6) === 9
+export const sum = (a: number) => (b: number) => a + b
 
 // Task 02
 // Реализовать функцию makeCounter которая работает следующим образом:
@@ -32,6 +33,10 @@ console.log('lesson 2');
 // const counter2 = makeCounter();
 // counter2(); // 1
 // counter(); // 3
+export const makeCounter = () => {
+  let count = 0
+  return () => ++count
+}
 
 // Task 03
 // Переписать функцию из Task 02 так, что бы она принимала число в качестве аргумента и это число было стартовым значением счетчика
@@ -40,6 +45,15 @@ console.log('lesson 2');
 // decrease: -1
 // reset: установить счетчик в 0;
 // set: установить счетчик в заданное значение;
+export const makeCounterExtended = (value: number) => {
+  let count = value
+  return {
+    increase: () => ++count,
+    decrease: () => --count,
+    reset: () => count = 0,
+    set: (value: number) => count = value
+  }
+}
 
 // Task 04*
 // Реализовать функцию superSum которая принимает число в качестве аргумента, которое указывает на количество слагаемых
@@ -50,6 +64,22 @@ console.log('lesson 2');
 // 4) superSum(3)(2,5,3) //10
 // 5) superSum(3)(2,5)(3) //10
 // 6) superSum(3)(2,5)(3,9) //10
+export const superSum = (n: number): any => {
+  if (n === 0) return 0
+  if (n === 1) return (num: number) => num
+
+  let _arguments: number[] = []
+  const helper = (...args: number[]) => {
+    _arguments = [..._arguments, ...args]
+    if (_arguments.length >= n) {
+      _arguments.length = n
+      return _arguments.reduce((acc, number) => acc + number)
+    } else {
+      return helper
+    }
+  }
+  return helper
+}
 
 // P.S. типизируйте только аргументы, а при вызове функции используйте @ts-ignore
 
@@ -58,6 +88,12 @@ console.log('lesson 2');
 
 // Task 06
 // написать функцию, которая повторяет функционал метода flat массива на всю глубину.
-
+// @ts-ignore
+export const flat = (arr: Array<any>) => {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val)
+    ? flat(val)
+    : val), [])
+}
 // just a plug
-export default () => {};
+export default () => {
+};
